@@ -2,21 +2,10 @@
 #define VEC2_H
 
 #include <cmath>
-#include <iterator>
-#include <numeric>
-#include <algorithm>
-#include <valarray>
 
 using std::sqrt;
 using std::atan2;
 using std::abs;
-using std::begin;
-using std::end;
-using std::cbegin;
-using std::cend;
-using std::plus;
-using std::inner_product;
-using std::transform;
 using std::is_arithmetic;
 
 namespace chrom {
