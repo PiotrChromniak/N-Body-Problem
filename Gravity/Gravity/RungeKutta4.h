@@ -16,12 +16,12 @@ class RungeKutta4{
     vector<k_coeffs> k_position;
     void reset_k_buffers();
     void copy_velocities_to_k_position(const vector<Particles::Particle>& particles);
-public:
-    void resize_buffers(int size);
     void calculate_first_k_velocity(const vector<Particles::Particle>& particles);
     void calculate_firt_k_position(const vector<Particles::Particle>& particles);
     void calculate_nth_k_velocity(const vector<Particles::Particle>& particles, int nth_coeff, float adjustment);
     void calculate_nth_k_position(const vector<Particles::Particle>& particles, int nth_coeff, float adjustment);
+public:
+    void resize_buffers(int size);
     void integrate(const vector<Particles::Particle>& particles, float time_step);
     void get_integration_result(vector<Particles::Particle>& particles, float time_step);
 };
