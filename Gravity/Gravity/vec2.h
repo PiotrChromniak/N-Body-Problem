@@ -29,6 +29,10 @@ namespace chrom {
             return vec2{ v[0] * scale, v[1] * scale };
         }
 
+        constexpr vec2 operator%(const vec2& other) const {
+            return vec2{ v[0] * other.v[0], v[1] * other.v[1] };
+        }
+
         vec2& operator+=(const vec2& other) {
             comp.x += other.comp.x;
             comp.y += other.comp.y;
@@ -48,24 +52,30 @@ namespace chrom {
             return vec2{ std::abs(comp.x), std::abs(comp.y) };
         }
 
+        double distance(const vec2& other) const {
+            const auto dist0 = other.comp.x - comp.x;
+            const auto dist1 = other.comp.y - comp.y;
+            const auto sum_of_squares = dist0*dist0 + dist1*dist1;
+            return sqrt(sum_of_squares);
+        }
+
         double magnitude() const {
-            return sqrt(comp.x*comp.x + comp.y*comp.y);
+            return this->distance(vec2{ 0,0 });
         }
 
         auto angle() const {
             return atan2(comp.y, comp.x);
         }
     };
-    
     using vec2f = vec2<float>;
 
     template<typename T>
-    double distance(const vec2<T>& v1, const vec2<T>& v2) {
+    double distance(const vec2<T>& v1, const vec2<T>& v2){
         const auto dist_x = v2.comp.x - v1.comp.x;
         const auto dist_y = v2.comp.y - v1.comp.y;
         const auto sum_of_squares = dist_x*dist_x + dist_y*dist_y;
         return sqrt(sum_of_squares);
-    };
+    }
 }
 
 #endif

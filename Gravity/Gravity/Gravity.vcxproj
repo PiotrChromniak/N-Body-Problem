@@ -80,6 +80,7 @@
     <Link>
       <AdditionalLibraryDirectories>C:\Program Files %28x86%29\AMD APP SDK\3.0\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -130,15 +131,17 @@
     <ClInclude Include="Particle.h" />
     <ClInclude Include="Particles.h" />
     <ClInclude Include="ParticleSystem.h" />
-    <ClInclude Include="RungeKutta4.h" />
+    <ClInclude Include="Trig.h" />
     <ClInclude Include="vec2.h" />
+    <ClInclude Include="Verlet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Particles.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
-    <ClCompile Include="RungeKutta4.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Trig.cpp" />
+    <ClCompile Include="Verlet.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

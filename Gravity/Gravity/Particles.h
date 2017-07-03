@@ -3,12 +3,10 @@
 
 #include <vector>
 #include <unordered_set>
-#include "vec2.h"
 #include "Particle.h"
 
 using std::vector;
-using chrom::vec2;
-using chrom::Particle;
+using chrom::vec2f;
 using std::unordered_set;
 
 namespace chrom{

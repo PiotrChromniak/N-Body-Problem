@@ -3,6 +3,8 @@
 #include <GL/glut.h>
 #include "ParticleSystem.h"
 
+using chrom::vec2f;
+
 void update(int);
 void keyboard(unsigned char key, int x, int y);
 void mouse_motion(int x, int y);
@@ -38,8 +40,8 @@ int main(int argc, char* argv[]){
 }
 
 void update(int val){
-    prt_system.time_step(0.5);
     prt_system.check_for_collisions();
+    prt_system.time_step(0.5);
     glutPostRedisplay();
     glutTimerFunc(25, update, 0);
 }
@@ -83,7 +85,7 @@ void mouse(int button, int state, int x, int y)
     case GLUT_RIGHT_BUTTON:
         if(state == GLUT_DOWN){
             const auto pos = x1 == vec2f{ 0, 0 } ? M : x1;
-            const auto v = x1 - x2;
+            const auto v =  x1 - x2;
             prt_system.add_particle(_mass, _radius, pos, v);
             x1 = x2 = { 0,0 };
         }
@@ -107,16 +109,17 @@ void display()
     for(const auto& p : prt_system.get_partcles()){
         glColor3f(0, 1, 0);
         glBegin(GL_POLYGON);
-        for (auto a = 0.0f; a < 2 * Pi; a += 0.5)
+        for (auto a = 0.0f; a < 2 * Pi; a += 0.2)
             glVertex2f(p.radius*cos(a) + p.position.comp.x, p.radius*sin(a) + p.position.comp.y);
         glEnd();
 
         glColor3f(1, 0, 0);
         glBegin(GL_LINES);
-        glVertex2f(p.position.comp.x, p.position.comp.y);
-        glVertex2f(p.position.comp.x + p.velocity.comp.x, p.position.comp.y + p.velocity.comp.y);
+            glVertex2f(p.position.comp.x, p.position.comp.y);
+            glVertex2f(p.position.comp.x + p.velocity.comp.x, p.position.comp.y + p.velocity.comp.y);
         glEnd();
     }
+
 
     glFlush();
     glutSwapBuffers();

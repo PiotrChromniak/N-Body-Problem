@@ -1,15 +1,17 @@
 #ifndef PARTICLE_SYSTEM_H
 #define PARTICLE_SYSTEM_H
 
-#include"RungeKutta4.h"
+#include "Verlet.h"
 
+using chrom::vec2f;
 using chrom::Particles;
+using chrom::Particle;
 
 class ParticleSystem
 {
-    RungeKutta4 solver;
     Particles prt;
 public:
+    Verlet solver2;
     void add_particle(float mass, float radius, const vec2f& position, const vec2f& velocity = vec2f{0,0});
     void remove_particles();
     void time_step(float step);
