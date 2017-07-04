@@ -22,6 +22,7 @@ namespace chrom{
         unordered_set<int> id_removal_list;
         vector<Particle> particles;
 
+        static vec2f perfectly_inelastic_collision(const Particle& p1, const Particle& p2);
         void collect_colliding_particles();
     };
 }

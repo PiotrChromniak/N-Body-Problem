@@ -30,14 +30,17 @@ void chrom::Particles::collect_colliding_particles()
                 //    id_removal_list.insert(part1.id)
                 //    : id_removal_list.insert(part2.id);
                 //const auto new_radius = std::cbrt(3 * (part1.mass + part2.mass) / (4 * 2 * PI));
+                auto velocity_after_collision = perfectly_inelastic_collision(part1, part2);
                 if(part1.mass < part2.mass){
                     id_removal_list.insert(part1.id);
                     part2.mass += part1.mass;
                     part2.radius += part1.radius * 0.3f;
+                    part2.velocity = velocity_after_collision;
                 }else{
                     id_removal_list.insert(part2.id);
                     part1.mass += part2.mass;
                     part1.radius += part2.radius * 0.3f;
+                    part1.velocity = velocity_after_collision;
                 }
                 //std::cout << "colisoin\n";
             }
@@ -68,6 +71,12 @@ long long chrom::Particles::remove_colliding_particles() {
     }
 
     return 0;
+}
+
+vec2f chrom::Particles::perfectly_inelastic_collision(const Particle & p1, const Particle & p2)
+{
+    auto mass_sum = p1.mass + p2.mass;
+    return p1.velocity * (p1.mass / mass_sum) + p2.velocity * (p2.mass / mass_sum);
 }
 
 const vector<Particle>& chrom::Particles::get_partcles() const {
