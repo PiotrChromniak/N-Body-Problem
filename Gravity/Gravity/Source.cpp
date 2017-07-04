@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <GL/glut.h>
 #include "ParticleSystem.h"
+#include  "Trig.h"
 
 using chrom::vec2f;
 
@@ -20,7 +21,7 @@ float _radius = 3;
 constexpr float Pi = 3.14159265358979323846f;
 
 int main(int argc, char* argv[]){
-
+    Trig::initialize();
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(1000, 1000);
@@ -110,7 +111,7 @@ void display()
         glColor3f(0, 1, 0);
         glBegin(GL_POLYGON);
         for (auto a = 0.0f; a < 2 * Pi; a += 0.2)
-            glVertex2f(p.radius*cos(a) + p.position.comp.x, p.radius*sin(a) + p.position.comp.y);
+            glVertex2f(p.radius*Trig::cos(a) + p.position.comp.x, p.radius*Trig::sin(a) + p.position.comp.y);
         glEnd();
 
         glColor3f(1, 0, 0);
