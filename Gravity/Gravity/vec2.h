@@ -52,15 +52,8 @@ namespace chrom {
             return vec2{ std::abs(comp.x), std::abs(comp.y) };
         }
 
-        double distance(const vec2& other) const {
-            const auto dist0 = other.comp.x - comp.x;
-            const auto dist1 = other.comp.y - comp.y;
-            const auto sum_of_squares = dist0*dist0 + dist1*dist1;
-            return sqrt(sum_of_squares);
-        }
-
         double magnitude() const {
-            return this->distance(vec2{ 0,0 });
+            return std::hypot(comp.x, comp.y);
         }
 
         auto angle() const {
@@ -71,10 +64,7 @@ namespace chrom {
 
     template<typename T>
     double distance(const vec2<T>& v1, const vec2<T>& v2){
-        const auto dist_x = v2.comp.x - v1.comp.x;
-        const auto dist_y = v2.comp.y - v1.comp.y;
-        const auto sum_of_squares = dist_x*dist_x + dist_y*dist_y;
-        return sqrt(sum_of_squares);
+        return std::hypot(v2.comp.x - v1.comp.x, v2.comp.y - v1.comp.y);
     }
 }
 
