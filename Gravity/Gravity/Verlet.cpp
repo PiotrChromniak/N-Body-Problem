@@ -9,10 +9,8 @@ void Verlet::resize_buffers(int size)
 
 void Verlet::reset_buffer()
 {
-    for (auto& a : accelerations)
-        a = { 0,0 };
-    for (auto& a : next_accelerations)
-        a = { 0,0 };
+    std::fill(begin(accelerations), end(accelerations), vec2f{ 0,0 });
+    std::fill(begin(next_accelerations), end(next_accelerations), vec2f{ 0,0 });
 }
 
 void Verlet::calculate_accelerations(const vector<chrom::Particle>& particles, vector<vec2f>& output)

@@ -15,8 +15,6 @@ namespace chrom {
         struct { T x, y; } comp;
         T v[2];
 
-        vec2(T x = 0, T y = 0) : comp{ x, y } {};
-
         constexpr vec2 operator+(const vec2& other) const {
             return vec2{ v[0] + other.v[0], v[1] + other.v[1] };
         }
@@ -27,10 +25,6 @@ namespace chrom {
 
         constexpr vec2 operator*(T scale) const {
             return vec2{ v[0] * scale, v[1] * scale };
-        }
-
-        constexpr vec2 operator%(const vec2& other) const {
-            return vec2{ v[0] * other.v[0], v[1] * other.v[1] };
         }
 
         vec2& operator+=(const vec2& other) {
