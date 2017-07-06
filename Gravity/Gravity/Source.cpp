@@ -9,13 +9,21 @@ void mouse_motion(int x, int y);
 void mouse(int button, int state, int x, int y);
 void display();
 
+struct Preset {
+    float mass;
+    float radius;
+};
+
 ParticleSystem prt_system;
 vec2f x1, x2, M;
 bool LEFT_PRESSED = false;
 
-float _mass = 20.0f;
-float _radius = 3;
 constexpr float Pi = 3.14159265358979323846f;
+
+const Preset small_planet{ 60, std::cbrt(3 * 60 / (4 * 0.5f * Pi)) },
+big_planet{ 700, std::cbrt(3 * 700 / (4 * 0.5f*Pi)) },
+super_nova{ 6000, std::cbrt(3 * 6000 / (4 * 0.5f*Pi)) };
+Preset current = big_planet;
 
 int main(int argc, char* argv[]){
 
@@ -45,16 +53,22 @@ void update(int val){
 }
 
 void keyboard(unsigned char key, int x, int y){
-    switch (key){
+    switch (key) {
     case '1':
-        _mass = 700;
-        _radius = 7;
-        std::cout << "700\n";
+        current = small_planet;
+        std::cout << "planet ( m = " << small_planet.mass << " kg, r = " << small_planet.radius << " m) \n";
         break;
     case '2':
-        _mass = 20;
-        _radius = 3;
-        std::cout << "20\n";
+        current = big_planet;
+        std::cout << "planet ( m = " << big_planet.mass << " kg, r = " << big_planet.radius << " m) \n";
+        break;
+    case '3':
+        current = super_nova;
+        std::cout << "planet ( m = " << super_nova.mass << " kg, r = " << super_nova.radius << " m) \n";
+        break;
+    case 'u':
+        prt_system.add_particle(20'000, std::cbrt(3 * 20'000 / (4 * 0.5f * Pi)), { 0,0 });
+        prt_system.add_particle(big_planet.mass, big_planet.radius, { 150,0 }, { 0, 15 });
         break;
     case 'c':
         prt_system.remove_particles();
@@ -75,23 +89,23 @@ void mouse_motion(int x, int y)
 void mouse(int button, int state, int x, int y)
 {
     M = { static_cast<float>(x - 500), static_cast<float>(y - 500) };
-    
-    switch (button){
+
+    switch (button) {
     case GLUT_LEFT_BUTTON:
         LEFT_PRESSED = state == GLUT_DOWN;
         break;
     case GLUT_RIGHT_BUTTON:
-        if(state == GLUT_DOWN){
+        if (state == GLUT_DOWN) {
             const auto pos = x1 == vec2f{ 0, 0 } ? M : x1;
             const auto v = x1 - x2;
-            prt_system.add_particle(_mass, _radius, pos, v);
+            prt_system.add_particle(current.mass, current.radius, pos, v);
             x1 = x2 = { 0,0 };
         }
         break;
-    }      
+    }
 
-   if(LEFT_PRESSED)
-       x1 = x2 = M;
+    if (LEFT_PRESSED)
+        x1 = x2 = M;
 }
 
 void display()

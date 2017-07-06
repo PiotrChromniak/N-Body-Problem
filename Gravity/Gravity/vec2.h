@@ -15,8 +15,6 @@ namespace chrom {
         struct { T x, y; } comp;
         T v[2];
 
-        vec2(T x = 0, T y = 0) : comp{ x, y } {};
-
         constexpr vec2 operator+(const vec2& other) const {
             return vec2{ v[0] + other.v[0], v[1] + other.v[1] };
         }
@@ -35,12 +33,6 @@ namespace chrom {
             return *this;
         }
 
-        vec2& operator%=(const vec2& other){
-            comp.x *= other.comp.x;
-            comp.y *= other.comp.y;
-            return *this;
-        }
-
         constexpr bool operator==(const vec2& other) const{
             return comp.x == other.comp.x && comp.y == other.comp.y;
         }
@@ -49,7 +41,7 @@ namespace chrom {
         }
 
         double magnitude() const {
-            return sqrt(comp.x*comp.x + comp.y*comp.y);
+            return std::hypot(comp.x, comp.y);
         }
 
         auto angle() const {
@@ -61,11 +53,8 @@ namespace chrom {
 
     template<typename T>
     double distance(const vec2<T>& v1, const vec2<T>& v2) {
-        const auto dist_x = v2.comp.x - v1.comp.x;
-        const auto dist_y = v2.comp.y - v1.comp.y;
-        const auto sum_of_squares = dist_x*dist_x + dist_y*dist_y;
-        return sqrt(sum_of_squares);
-    };
+        return std::hypot(v2.comp.x - v1.comp.x, v2.comp.y - v1.comp.y);
+    }
 }
 
 #endif

@@ -14,8 +14,7 @@ void ParticleSystem::remove_particles()
 
 void ParticleSystem::time_step(float step)
 {
-    solver.integrate(prt.get_partcles(), step);
-    solver.get_integration_result(prt.get_particles(), step);
+    solver.integrate(prt.get_particles(), step);
 }
 
 void ParticleSystem::check_for_collisions()

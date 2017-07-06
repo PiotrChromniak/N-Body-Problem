@@ -3,12 +3,10 @@
 
 #include <vector>
 #include <unordered_set>
-#include "vec2.h"
 #include "Particle.h"
 
 using std::vector;
-using chrom::vec2;
-using chrom::Particle;
+using chrom::vec2f;
 using std::unordered_set;
 
 namespace chrom{
@@ -24,6 +22,7 @@ namespace chrom{
         unordered_set<int> id_removal_list;
         vector<Particle> particles;
 
+        static vec2f perfectly_inelastic_collision(const Particle& p1, const Particle& p2);
         void collect_colliding_particles();
     };
 }
