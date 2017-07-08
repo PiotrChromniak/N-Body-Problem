@@ -9,8 +9,8 @@ void Verlet::resize_buffers(int size)
 
 void Verlet::reset_buffer()
 {
-    std::fill(begin(accelerations), end(accelerations), vec2f{ 0,0 });
-    std::fill(begin(next_accelerations), end(next_accelerations), vec2f{ 0,0 });
+    fill(begin(accelerations), end(accelerations), vec2f{ 0,0 });
+    fill(begin(next_accelerations), end(next_accelerations), vec2f{ 0,0 });
 }
 
 void Verlet::calculate_accelerations(const vector<chrom::Particle>& particles, vector<vec2f>& output)
@@ -22,16 +22,20 @@ void Verlet::calculate_accelerations(const vector<chrom::Particle>& particles, v
         for (auto x = y + 1; x < particles.size(); ++x) {
             const auto& particle1 = particles[x];
 
-            const auto distance = chrom::distance(particle2.position, particle1.position);
-            const auto dist_vector = particle2.position - particle1.position;
-            const double angle[]{ dist_vector.angle(), angle[0] + PI };
-            const auto partial_acceleration = 1.0f / (distance*distance);
+            auto distance = chrom::distance(particle2.position, particle1.position);
+            auto dist_vector = particle2.position - particle1.position;
+            double angle[]{ dist_vector.angle(), angle[0] + PI };
+            auto partial_acceleration = 1.0f / (distance*distance);
 
-            output[x] += vec2f{ static_cast<float>(particle2.mass * partial_acceleration * cos(angle[0])),
-                static_cast<float>(partial_acceleration * particle2.mass * sin(angle[0])) };
+            output[x] += vec2f{ 
+                static_cast<float>(particle2.mass * partial_acceleration * cos(angle[0])),
+                static_cast<float>(partial_acceleration * particle2.mass * sin(angle[0])) 
+            };
 
-            output[y] += vec2f{ static_cast<float>(particle1.mass * partial_acceleration * cos(angle[1])),
-                static_cast<float>(partial_acceleration * particle1.mass * sin(angle[1])) };
+            output[y] += vec2f{ 
+                static_cast<float>(particle1.mass * partial_acceleration * cos(angle[1])),
+                static_cast<float>(partial_acceleration * particle1.mass * sin(angle[1])) 
+            };
         }
     }
 #undef PI

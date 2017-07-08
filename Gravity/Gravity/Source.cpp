@@ -23,9 +23,9 @@ bool LEFT_PRESSED = false;
 
 constexpr float Pi = 3.14159265358979323846f;
 
-const Preset small_planet{ 60, std::cbrt(3 * 60 / (4 * 0.5f * Pi)) },
-big_planet{ 700, std::cbrt(3 * 700 / (4 * 0.5f*Pi)) },
-super_nova{ 6000, std::cbrt(3 * 6000 / (4 * 0.5f*Pi)) };
+const Preset small_planet{ 60, cbrt(3 * 60 / (4 * 0.5f * Pi)) },
+big_planet{ 700, cbrt(3 * 700 / (4 * 0.5f*Pi)) },
+super_nova{ 6000, cbrt(3 * 6000 / (4 * 0.5f*Pi)) };
 Preset current = big_planet;
 
 int main(int argc, char* argv[]){
@@ -70,7 +70,7 @@ void keyboard(unsigned char key, int x, int y){
         std::cout << "planet ( m = " << super_nova.mass << " kg, r = " << super_nova.radius << " m) \n";
         break;
     case 'u':
-        prt_system.add_particle(20'000, std::cbrt(3 * 20'000 / (4 * 0.5f * Pi)), { 0,0 });
+        prt_system.add_particle(20'000, cbrt(3 * 20'000 / (4 * 0.5f * Pi)), { 0,0 });
         prt_system.add_particle(big_planet.mass, big_planet.radius, { 150,0 }, {0, 15 });
         break;
     case 'c':
