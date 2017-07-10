@@ -121,7 +121,7 @@ void display()
     for(const auto& p : prt_system.get_partcles()){
         glColor3f(0, 1, 0);
         glBegin(GL_POLYGON);
-        for (auto a = 0.0f; a < 2 * Pi; a += 0.5)
+        for (auto a = 0.0f; a < 2 * Pi; a += 0.2)
             glVertex2f(p.radius*cos(a) + p.position.comp.x, p.radius*sin(a) + p.position.comp.y);
         glEnd();
 

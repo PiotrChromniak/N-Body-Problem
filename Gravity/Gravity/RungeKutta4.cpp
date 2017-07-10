@@ -9,8 +9,8 @@ using std::cos;
 
 void RungeKutta4::reset_state()
 {
-    std::fill(begin(dvdt), end(dvdt), derivatives{});
-    std::fill(begin(drdt), end(drdt), derivatives{});
+    fill(begin(dvdt), end(dvdt), derivatives{});
+    fill(begin(drdt), end(drdt), derivatives{});
 }
 
 void RungeKutta4::save_initial_position(const vector<Particle>& particles)
@@ -24,7 +24,7 @@ void RungeKutta4::save_initial_position(const vector<Particle>& particles)
 void RungeKutta4::move_particles(vector<Particle>& particles, int nth_derivative, float dt)
 {
     auto index = nth_derivative - 1;
-    for(size_t i =0;i<particles.size();++i)
+    for (size_t i = 0; i < particles.size(); ++i)
         particles[i].position = position[i] + drdt[i][index] * dt;
 }
 
@@ -56,11 +56,15 @@ void RungeKutta4::calculate_first_dvdt(const vector<Particle>& particles) {
             double angle[]{ dist_vector.angle(), angle[0] + M_PI };
             auto partial_acceleration = 1.0f / (distance*distance);
 
-            dvdt[x][0] += vec2f{ static_cast<float>(particle2.mass * partial_acceleration * cos(angle[0])),
-                static_cast<float>(partial_acceleration * particle2.mass * sin(angle[0]))};
+            dvdt[x][0] += vec2f{ 
+                static_cast<float>(particle2.mass * partial_acceleration * cos(angle[0])),
+                static_cast<float>(particle2.mass * partial_acceleration * sin(angle[0]))
+            };
 
-            dvdt[y][0] += vec2f{ static_cast<float>(particle1.mass * partial_acceleration * cos(angle[1])),
-                static_cast<float>(partial_acceleration * particle1.mass * sin(angle[1]))};
+            dvdt[y][0] += vec2f{ 
+                static_cast<float>(particle1.mass * partial_acceleration * cos(angle[1])),
+                static_cast<float>(particle1.mass * partial_acceleration * sin(angle[1]))
+            };
         }
     }
 }
@@ -78,11 +82,15 @@ void RungeKutta4::calculate_nth_dvdt(const vector<Particle>& particles, int nth_
             double angle[]{ dist_vector.angle(), angle[0] + M_PI };
             auto partial_acceleration = 1.0f / (distance*distance);
 
-            dvdt[x][nth_derivative] += vec2f{ static_cast<float>(part2.mass * partial_acceleration * cos(angle[0])),
-                static_cast<float>(partial_acceleration * part2.mass * sin(angle[0]))};
+            dvdt[x][nth_derivative] += vec2f{ 
+                static_cast<float>(part2.mass * partial_acceleration * cos(angle[0])),
+                static_cast<float>(part2.mass * partial_acceleration * sin(angle[0])) 
+            };
 
-            dvdt[y][nth_derivative] += vec2f{ static_cast<float>(part1.mass * partial_acceleration * cos(angle[1])),
-                static_cast<float>(partial_acceleration * part1.mass * sin(angle[1]))};
+            dvdt[y][nth_derivative] += vec2f{ 
+                static_cast<float>(part1.mass * partial_acceleration * cos(angle[1])),
+                static_cast<float>(part1.mass * partial_acceleration * sin(angle[1])) 
+            };
         }
     }
 }
@@ -90,11 +98,11 @@ void RungeKutta4::calculate_nth_dvdt(const vector<Particle>& particles, int nth_
 void RungeKutta4::calculate_nth_drdt(const vector<Particle>& particles, int nth_derivative, float dt)
 {
     auto index = nth_derivative - 1;
-    for (size_t i = 0; i < particles.size(); ++i){
+    for (size_t i = 0; i < particles.size(); ++i) {
         const auto g = dvdt[i][nth_derivative - 1];
         drdt[i][nth_derivative] += dvdt[i][index] * dt;
     }
-        
+
 }
 
 void RungeKutta4::integrate(vector<Particle>& particles, float dt)
@@ -115,7 +123,7 @@ void RungeKutta4::integrate(vector<Particle>& particles, float dt)
 
     move_particles(particles, 3, dt);
     calculate_nth_dvdt(particles, 3);
-    calculate_nth_drdt(particles, 3, dt / 2);
+    calculate_nth_drdt(particles, 3, dt);
 
     get_integration_result(particles, dt);
 }
@@ -123,11 +131,13 @@ void RungeKutta4::integrate(vector<Particle>& particles, float dt)
 void RungeKutta4::get_integration_result(vector<Particle>& particles, float dt)
 {
     const auto coeff = dt / 6;
-    for (size_t i = 0; i < particles.size(); ++i){
+    for (size_t i = 0; i < particles.size(); ++i) {
         auto& current_particle = particles[i];
-        const auto& dVdT = dvdt[i];
+
+        auto& dVdT = dvdt[i];
         current_particle.velocity += (dVdT[0] + (dVdT[1] + dVdT[2]) * 2 + dVdT[3]) * coeff;
-        const auto& dRdT = drdt[i];
+
+        auto& dRdT = drdt[i];
         current_particle.position = position[i] + (dRdT[0] + (dRdT[1] + dRdT[2]) * 2 + dRdT[3]) * coeff;
-    }   
+    }
 }

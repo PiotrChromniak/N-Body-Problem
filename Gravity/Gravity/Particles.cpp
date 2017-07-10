@@ -23,10 +23,12 @@ void chrom::Particles::collect_colliding_particles()
 
         for(auto j = i + 1; j < particles.size(); ++j){
             auto& part1 = particles[j];
-            const auto dist = distance(part1.position, part2.position);
+            auto dist = distance(part1.position, part2.position);
+
             if(dist < part1.radius + part2.radius){
                 auto new_radius = std::cbrt(3 * (part1.mass + part2.mass) / (4 * 0.5f * PI));
                 auto velocity_after_collision = perfectly_inelastic_collision(part1, part2);
+
                 if(part1.mass < part2.mass){
                     id_removal_list.insert(part1.id);
                     part2.mass += part1.mass;
