@@ -8,7 +8,7 @@ using std::array;
 using chrom::Particle;
 
 class RungeKutta4{
-    using derivatives = std::array<vec2f, 4>;
+    using derivatives = array<vec2f, 4>;
     vector<derivatives> dvdt;
     vector<derivatives> drdt;
     vector<vec2f> position;

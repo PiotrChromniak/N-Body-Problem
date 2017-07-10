@@ -29,12 +29,12 @@ void Verlet::calculate_accelerations(const vector<chrom::Particle>& particles, v
 
             output[x] += vec2f{ 
                 static_cast<float>(particle2.mass * partial_acceleration * cos(angle[0])),
-                static_cast<float>(partial_acceleration * particle2.mass * sin(angle[0])) 
+                static_cast<float>(particle2.mass * partial_acceleration * sin(angle[0]))
             };
 
             output[y] += vec2f{ 
                 static_cast<float>(particle1.mass * partial_acceleration * cos(angle[1])),
-                static_cast<float>(partial_acceleration * particle1.mass * sin(angle[1])) 
+                static_cast<float>(particle1.mass * partial_acceleration * sin(angle[1]))
             };
         }
     }

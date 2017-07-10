@@ -9,8 +9,8 @@ using std::cos;
 
 void RungeKutta4::reset_state()
 {
-    std::fill(begin(dvdt), end(dvdt), derivatives{});
-    std::fill(begin(drdt), end(drdt), derivatives{});
+    fill(begin(dvdt), end(dvdt), derivatives{});
+    fill(begin(drdt), end(drdt), derivatives{});
 }
 
 void RungeKutta4::save_initial_position(const vector<Particle>& particles)
@@ -56,11 +56,15 @@ void RungeKutta4::calculate_first_dvdt(const vector<Particle>& particles) {
             double angle[]{ dist_vector.angle(), angle[0] + M_PI };
             auto partial_acceleration = 1.0f / (distance*distance);
 
-            dvdt[x][0] += vec2f{ static_cast<float>(particle2.mass * partial_acceleration * cos(angle[0])),
-                static_cast<float>(partial_acceleration * particle2.mass * sin(angle[0]))};
+            dvdt[x][0] += vec2f{ 
+                static_cast<float>(particle2.mass * partial_acceleration * cos(angle[0])),
+                static_cast<float>(particle2.mass * partial_acceleration * sin(angle[0]))
+            };
 
-            dvdt[y][0] += vec2f{ static_cast<float>(particle1.mass * partial_acceleration * cos(angle[1])),
-                static_cast<float>(partial_acceleration * particle1.mass * sin(angle[1]))};
+            dvdt[y][0] += vec2f{ 
+                static_cast<float>(particle1.mass * partial_acceleration * cos(angle[1])),
+                static_cast<float>(particle1.mass * partial_acceleration * sin(angle[1]))
+            };
         }
     }
 }
@@ -78,11 +82,15 @@ void RungeKutta4::calculate_nth_dvdt(const vector<Particle>& particles, int nth_
             double angle[]{ dist_vector.angle(), angle[0] + M_PI };
             auto partial_acceleration = 1.0f / (distance*distance);
 
-            dvdt[x][nth_derivative] += vec2f{ static_cast<float>(part2.mass * partial_acceleration * cos(angle[0])),
-                static_cast<float>(partial_acceleration * part2.mass * sin(angle[0]))};
+            dvdt[x][nth_derivative] += vec2f{ 
+                static_cast<float>(part2.mass * partial_acceleration * cos(angle[0])),
+                static_cast<float>(part2.mass * partial_acceleration * sin(angle[0]))
+            };
 
-            dvdt[y][nth_derivative] += vec2f{ static_cast<float>(part1.mass * partial_acceleration * cos(angle[1])),
-                static_cast<float>(partial_acceleration * part1.mass * sin(angle[1]))};
+            dvdt[y][nth_derivative] += vec2f{ 
+                static_cast<float>(part1.mass * partial_acceleration * cos(angle[1])),
+                static_cast<float>(part1.mass * partial_acceleration * sin(angle[1]))
+            };
         }
     }
 }
@@ -115,7 +123,7 @@ void RungeKutta4::integrate(vector<Particle>& particles, float dt)
 
     move_particles(particles, 3, dt);
     calculate_nth_dvdt(particles, 3);
-    calculate_nth_drdt(particles, 3, dt / 2);
+    calculate_nth_drdt(particles, 3, dt);
 
     get_integration_result(particles, dt);
 }
