@@ -118,23 +118,23 @@ void display() {
   glColor3f(0, 1, 0);
 
   glBegin(GL_LINES);
-  glVertex2f(x1.comp.x, x1.comp.y);
-  glVertex2f(x2.comp.x, x2.comp.y);
+  glVertex2f(x1.x, x1.y);
+  glVertex2f(x2.x, x2.y);
   glEnd();
 
   for (const auto &p : prt_system.get_partcles()) {
     glColor3f(0, 1, 0);
     glBegin(GL_POLYGON);
     for (auto a = 0.0f; a < 2 * Pi; a += 0.2)
-      glVertex2f(p.radius * Trig::cos(a) + p.position.comp.x,
-                 p.radius * Trig::sin(a) + p.position.comp.y);
+      glVertex2f(p.radius * Trig::cos(a) + p.position.x,
+                 p.radius * Trig::sin(a) + p.position.y);
     glEnd();
 
     glColor3f(1, 0, 0);
     glBegin(GL_LINES);
-    glVertex2f(p.position.comp.x, p.position.comp.y);
-    glVertex2f(p.position.comp.x + p.velocity.comp.x,
-               p.position.comp.y + p.velocity.comp.y);
+    glVertex2f(p.position.x, p.position.y);
+    glVertex2f(p.position.x + p.velocity.x,
+               p.position.y + p.velocity.y);
     glEnd();
   }
 

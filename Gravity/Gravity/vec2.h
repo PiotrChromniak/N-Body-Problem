@@ -13,7 +13,7 @@ template <typename T> union vec2 {
   static_assert(is_arithmetic<T>::value, "T must be arithmetic type");
   struct {
     T x, y;
-  } comp;
+  };
   T v[2];
 
   constexpr vec2 operator+(const vec2 &other) const {
@@ -29,30 +29,30 @@ template <typename T> union vec2 {
   }
 
   vec2 &operator+=(const vec2 &other) {
-    comp.x += other.comp.x;
-    comp.y += other.comp.y;
+    x += other.x;
+    y += other.y;
     return *this;
   }
 
   vec2 &operator%=(const vec2 &other) {
-    comp.x *= other.comp.x;
-    comp.y *= other.comp.y;
+    x *= other.x;
+    y *= other.y;
     return *this;
   }
 
   constexpr bool operator==(const vec2 &other) const {
-    return comp.x == other.comp.x && comp.y == other.comp.y;
+    return x == other.x && y == other.y;
   }
-  vec2 abs() const { return vec2{std::abs(comp.x), std::abs(comp.y)}; }
+  vec2 abs() const { return vec2{std::abs(x), std::abs(y)}; }
 
-  double magnitude() const { return std::hypot(comp.x, comp.y); }
+  double magnitude() const { return std::hypot(x, y); }
 
-  auto angle() const { return atan2(comp.y, comp.x); }
+  auto angle() const { return atan2(y, x); }
 };
 using vec2f = vec2<float>;
 
 template <typename T> double distance(const vec2<T> &v1, const vec2<T> &v2) {
-  return std::hypot(v2.comp.x - v1.comp.x, v2.comp.y - v1.comp.y);
+  return std::hypot(v2.x - v1.x, v2.y - v1.y);
 }
 } // namespace chrom
 
