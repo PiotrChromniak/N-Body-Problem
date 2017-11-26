@@ -4,7 +4,10 @@
 #define M_PI 3.14159265358979323846
 #endif
 
+using std::begin;
 using std::cos;
+using std::end;
+using std::fill;
 using std::sin;
 
 void RungeKutta4::reset_state() {
@@ -19,16 +22,15 @@ void RungeKutta4::save_initial_position(const vector<Particle> &particles) {
 
 void RungeKutta4::move_particles(vector<Particle> &particles,
                                  int nth_derivative, float dt) {
-  auto index = nth_derivative - 1;
+  auto prev_derivative_idx = nth_derivative - 1;
   for (size_t i = 0; i < particles.size(); ++i)
-    particles[i].position = position[i] + drdt[i][index] * dt;
+    particles[i].position = position[i] + drdt[i][prev_derivative_idx] * dt;
 }
 
 void RungeKutta4::copy_velocities_to_drdt(const vector<Particle> &particles) {
   for (size_t i = 0; i < particles.size(); ++i) {
-    const auto &velocity = particles[i].velocity;
-    for (auto &k : drdt[i])
-      k = velocity;
+    auto &dRdt = drdt[i];
+    fill(begin(dRdt), end(dRdt), particles[i].velocity);
   }
 }
 
@@ -80,21 +82,22 @@ void RungeKutta4::calculate_nth_dvdt(const vector<Particle> &particles,
 
       dvdt[x][nth_derivative] += vec2f{
           static_cast<float>(part2.mass * partial_acceleration * cos(angle[0])),
-          static_cast<float>(part2.mass * partial_acceleration * sin(angle[0]))};
+          static_cast<float>(part2.mass * partial_acceleration *
+                             sin(angle[0]))};
 
       dvdt[y][nth_derivative] += vec2f{
           static_cast<float>(part1.mass * partial_acceleration * cos(angle[1])),
-          static_cast<float>(part1.mass * partial_acceleration * sin(angle[1]))};
+          static_cast<float>(part1.mass * partial_acceleration *
+                             sin(angle[1]))};
     }
   }
 }
 
 void RungeKutta4::calculate_nth_drdt(const vector<Particle> &particles,
                                      int nth_derivative, float dt) {
-  auto index = nth_derivative - 1;
+  auto prev_derivative_idx = nth_derivative - 1;
   for (size_t i = 0; i < particles.size(); ++i) {
-    const auto g = dvdt[i][nth_derivative - 1];
-    drdt[i][nth_derivative] += dvdt[i][index] * dt;
+    drdt[i][nth_derivative] += dvdt[i][prev_derivative_idx] * dt;
   }
 }
 

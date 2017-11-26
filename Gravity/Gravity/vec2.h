@@ -16,6 +16,8 @@ template <typename T> union vec2 {
   };
   T v[2];
 
+  vec2& operator= (const vec2 &) = default;
+
   constexpr vec2 operator+(const vec2 &other) const {
     return vec2{v[0] + other.v[0], v[1] + other.v[1]};
   }
@@ -31,12 +33,6 @@ template <typename T> union vec2 {
   vec2 &operator+=(const vec2 &other) {
     x += other.x;
     y += other.y;
-    return *this;
-  }
-
-  vec2 &operator%=(const vec2 &other) {
-    x *= other.x;
-    y *= other.y;
     return *this;
   }
 

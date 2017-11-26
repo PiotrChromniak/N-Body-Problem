@@ -133,8 +133,7 @@ void display() {
     glColor3f(1, 0, 0);
     glBegin(GL_LINES);
     glVertex2f(p.position.x, p.position.y);
-    glVertex2f(p.position.x + p.velocity.x,
-               p.position.y + p.velocity.y);
+    glVertex2f(p.position.x + p.velocity.x, p.position.y + p.velocity.y);
     glEnd();
   }
 
